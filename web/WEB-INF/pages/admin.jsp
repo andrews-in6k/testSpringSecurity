@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: employee
@@ -33,5 +34,13 @@
           href="javascript:formSubmit()"> Logout</a>
   </h2>
 </c:if>
+
+<sec:authorize access="isRememberMe()">
+    <h2># This user is login by "Remember Me Cookies".</h2>
+</sec:authorize>
+
+<sec:authorize access="isFullyAuthenticated()">
+    <h2># This user is login by username / password.</h2>
+</sec:authorize>
 </body>
 </html>

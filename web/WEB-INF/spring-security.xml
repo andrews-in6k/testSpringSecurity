@@ -20,10 +20,17 @@
                 default-target-url="/welcome"
                 authentication-failure-url="/login?error"
                 username-parameter="username"
-                password-parameter="password" />
+                password-parameter="password"
+                login-processing-url="/auth/login_check"
+                authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler"/>
         <logout logout-url="/logout"
                 logout-success-url="/login?logout" />
         <csrf/>
+
+        <remember-me
+                token-validity-seconds="1209600"
+                remember-me-parameter="remember-me"
+                data-source-ref="dataSource" />
     </http>
 
    <authentication-manager>
