@@ -7,8 +7,14 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http auto-config="true">
-        <intercept-url pattern="/admin**" access="hasRole('USER')" />
+    <beans:import resource="spring-database.xml"/>
+
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
+
+        <!-- access denied page -->
+        <access-denied-handler error-page="/403" />
+
         <form-login
                 login-page="/login"
                 default-target-url="/welcome"
@@ -22,9 +28,11 @@
 
    <authentication-manager>
         <authentication-provider>
-            <user-service>
-                <user name="andrews" password="andrews" authorities="ROLE_USER" />
-            </user-service>
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query=
+                                       "select username,password, enabled from users where username=?"
+                               authorities-by-username-query=
+                                       "select username, role from user_roles where username =?  " />
         </authentication-provider>
    </authentication-manager>
 
